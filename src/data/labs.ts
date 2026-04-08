@@ -33,6 +33,7 @@ export interface Lab {
 import { advancedRoutingLabs, securityLabs, switchingAdvancedLabs, infraServicesLabs, haWanLabs, ipv6Labs } from "./labs-network-advanced";
 import { terraformLabs } from "./labs-terraform";
 import { aiCodingLabs } from "./labs-ai-coding";
+import { pythonNetworkLabs } from "./labs-python-network";
 
 const fundamentalLabs: Lab[] = [
   {
@@ -170,47 +171,12 @@ const troubleshootingLabs: Lab[] = [
   },
 ];
 
-const automationLabs: Lab[] = [
-  {
-    id: "python-netmiko", name: "Python Netmiko Task", category: "Automation", mode: "Python Lab",
-    objective: "Write a Python script using Netmiko to connect to a router and retrieve the running configuration.",
-    steps: [{
-      code: `from netmiko import ConnectHandler
-
-device = {
-    "device_type": "cisco_ios",
-    "host": "192.168.1.1",
-    "username": "admin",
-    "password": "cisco123",
-}
-
-print("Connecting to device...")
-net_connect = ConnectHandler(**device)
-
-print("Retrieving running config...")
-output = net_connect.send_command("show running-config")
-
-print("=" * 50)
-print(output[:500])
-print("=" * 50)
-
-net_connect.disconnect()
-print("Connection closed.")`,
-      output: ["Connecting to device...", "Retrieving running config...", "==================================================", "Building configuration...", "", "Current configuration : 1234 bytes", "!", "hostname Router1", "!", "interface GigabitEthernet0/0", " ip address 192.168.1.1 255.255.255.0", "==================================================", "Connection closed."],
-    }] as CodeStep[],
-    validations: [{ label: "SSH connection established", pass: true }, { label: "Running config retrieved", pass: true }, { label: "Connection properly closed", pass: true }],
-    explanation: "Netmiko simplifies SSH connections to network devices. ConnectHandler establishes the session, send_command() executes commands.",
-    hints: ["Import ConnectHandler from netmiko", "Define device dict with device_type, host, username, password"],
-    logs: ["[NETMIKO] SSH session to 192.168.1.1", "[EXEC] show running-config", "[NETMIKO] Session disconnected"],
-  },
-];
-
 export const labs: Lab[] = [
   ...fundamentalLabs,
   ...routingLabs,
   ...switchingLabs,
   ...troubleshootingLabs,
-  ...automationLabs,
+  ...pythonNetworkLabs,
   ...advancedRoutingLabs,
   ...securityLabs,
   ...switchingAdvancedLabs,
@@ -226,7 +192,13 @@ export const categories = [
   { name: "Routing", labs: ["static-routing", "ospf-setup"] },
   { name: "Switching", labs: ["vlan-setup", "trunk-config"] },
   { name: "Troubleshooting", labs: ["fix-down-interface"] },
-  { name: "Automation", labs: ["python-netmiko"] },
+  { name: "Python Networking", labs: [
+    "py-netmiko-show", "py-netmiko-config", "py-multi-device", "py-concurrent-ssh",
+    "py-backup-configs", "py-parse-cdp", "py-textfsm-parse", "py-napalm-getters",
+    "py-napalm-config-replace", "py-paramiko-raw", "py-jinja2-templates", "py-ping-sweep",
+    "py-snmp-poll", "py-netconf-yang", "py-restconf-api", "py-config-diff",
+    "py-csv-report", "py-log-analyzer", "py-subnet-calc", "py-ansible-playbook",
+  ] },
   { name: "Advanced Routing", labs: ["eigrp-basic", "eigrp-named-mode", "bgp-ebgp", "bgp-ibgp", "ospf-multi-area", "ospf-stub-area", "route-redistribution", "policy-based-routing", "bgp-route-filtering", "ospf-authentication"] },
   { name: "Security", labs: ["standard-acl", "extended-acl", "static-nat", "dynamic-nat-pat", "ipsec-vpn", "aaa-tacacs", "ssh-hardening", "port-security"] },
   { name: "Switching Advanced", labs: ["intervlan-routing", "etherchannel-lacp", "stp-root-bridge", "rstp-config", "vtp-config", "span-config"] },
