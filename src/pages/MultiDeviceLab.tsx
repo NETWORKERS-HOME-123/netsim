@@ -380,7 +380,7 @@ export default function MultiDeviceLabPage() {
           ))}
         </div>
 
-        {/* Center: Terminal + Objective */}
+        {/* Center content */}
         <div className="flex flex-col flex-1 min-w-0">
           {/* Objective bar */}
           <div className="p-3 border-b border-border bg-card/50">
@@ -388,6 +388,50 @@ export default function MultiDeviceLabPage() {
             <div className="text-xs text-foreground leading-relaxed">{selectedLab.objective}</div>
           </div>
 
+          {/* Top: Topology (large) + Device Table side by side */}
+          <div className="flex border-b border-border" style={{ height: "45%" }}>
+            {/* Topology — takes most of the width */}
+            <div className="flex-1 p-3 overflow-hidden flex flex-col min-w-0">
+              <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-1">
+                Network Topology
+              </div>
+              <div className="flex-1 min-h-0">
+                <TopologySVG lab={selectedLab} activeDevice={activeDevice} />
+              </div>
+            </div>
+
+            {/* Device table */}
+            <div className="w-64 border-l border-border overflow-y-auto p-2 shrink-0">
+              <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-2 px-1">
+                Device Interfaces
+              </div>
+              <table className="w-full text-[10px] font-mono-terminal">
+                <thead>
+                  <tr className="text-muted-foreground border-b border-border">
+                    <th className="text-left py-1 px-1">Device</th>
+                    <th className="text-left py-1 px-1">Interface</th>
+                    <th className="text-left py-1 px-1">IP Address</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedLab.topology.nodes.flatMap((node) =>
+                    node.interfaces.filter(i => i.ip !== "N/A").map((intf, idx) => (
+                      <tr
+                        key={`${node.id}-${idx}`}
+                        className={`border-b border-border/30 ${activeDevice === node.id ? "text-terminal-green" : "text-foreground"}`}
+                      >
+                        <td className="py-0.5 px-1">{idx === 0 ? node.id : ""}</td>
+                        <td className="py-0.5 px-1 text-terminal-cyan">{intf.name}</td>
+                        <td className="py-0.5 px-1 text-terminal-amber">{intf.ip}/{intf.mask === "255.255.255.255" ? "32" : intf.mask === "255.255.255.252" ? "30" : intf.mask === "255.255.255.0" ? "24" : intf.mask}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Bottom: Terminal + Verifications side by side */}
           <div className="flex flex-1 min-h-0">
             {/* Terminal */}
             <div className="flex-1 min-w-0 p-2">
@@ -400,78 +444,37 @@ export default function MultiDeviceLabPage() {
               />
             </div>
 
-            {/* Right: Topology + Device Table */}
-            <div className="w-[340px] border-l border-border flex flex-col shrink-0">
-              {/* Topology */}
-              <div className="flex-1 p-2 border-b border-border overflow-hidden">
-                <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-1 px-1">
-                  Network Topology
+            {/* Verifications panel */}
+            <div className="w-64 border-l border-border overflow-y-auto p-3 shrink-0">
+              <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-2">
+                Verification ({simState === "complete" ? selectedLab.verifications.length : verifyStep}/{selectedLab.verifications.length})
+              </div>
+              <div className="space-y-1.5">
+                {selectedLab.verifications.map((v, i) => {
+                  const done = simState === "complete" || (simState === "verifying" && i < verifyStep);
+                  const running = simState === "verifying" && i === verifyStep;
+                  return (
+                    <div key={i} className="flex items-start gap-2 text-[11px]">
+                      {done ? (
+                        <CheckCircle className="w-3.5 h-3.5 text-terminal-green shrink-0 mt-0.5" />
+                      ) : running ? (
+                        <div className="w-3.5 h-3.5 rounded-full border-2 border-terminal-amber border-t-transparent animate-spin shrink-0 mt-0.5" />
+                      ) : (
+                        <div className="w-3.5 h-3.5 rounded-full border border-border shrink-0 mt-0.5" />
+                      )}
+                      <span className={`${done ? "text-terminal-green" : running ? "text-terminal-amber" : "text-muted-foreground"} leading-tight`}>
+                        [{v.device}] {v.checkLabel}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+              {simState === "complete" && (
+                <div className="mt-3 p-2 bg-terminal-green/10 border border-terminal-green/20 rounded text-[11px] text-foreground leading-relaxed">
+                  <span className="text-terminal-green font-bold">✓ Complete:</span> {selectedLab.explanation}
                 </div>
-                <TopologySVG lab={selectedLab} activeDevice={activeDevice} />
-              </div>
-
-              {/* Device table */}
-              <div className="h-48 overflow-y-auto p-2">
-                <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-2 px-1">
-                  Device Interfaces
-                </div>
-                <table className="w-full text-[10px] font-mono-terminal">
-                  <thead>
-                    <tr className="text-muted-foreground border-b border-border">
-                      <th className="text-left py-1 px-1">Device</th>
-                      <th className="text-left py-1 px-1">Interface</th>
-                      <th className="text-left py-1 px-1">IP Address</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedLab.topology.nodes.flatMap((node) =>
-                      node.interfaces.filter(i => i.ip !== "N/A").map((intf, idx) => (
-                        <tr
-                          key={`${node.id}-${idx}`}
-                          className={`border-b border-border/30 ${activeDevice === node.id ? "text-terminal-green" : "text-foreground"}`}
-                        >
-                          <td className="py-0.5 px-1">{idx === 0 ? node.id : ""}</td>
-                          <td className="py-0.5 px-1 text-terminal-cyan">{intf.name}</td>
-                          <td className="py-0.5 px-1 text-terminal-amber">{intf.ip}/{intf.mask === "255.255.255.255" ? "32" : intf.mask === "255.255.255.252" ? "30" : intf.mask === "255.255.255.0" ? "24" : intf.mask}</td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
+              )}
             </div>
-          </div>
-
-          {/* Bottom: Verifications */}
-          <div className="h-36 border-t border-border bg-card shrink-0 overflow-y-auto p-3">
-            <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-2">
-              Verification Checks ({simState === "complete" ? selectedLab.verifications.length : verifyStep}/{selectedLab.verifications.length})
-            </div>
-            <div className="grid grid-cols-2 gap-1.5">
-              {selectedLab.verifications.map((v, i) => {
-                const done = simState === "complete" || (simState === "verifying" && i < verifyStep);
-                const running = simState === "verifying" && i === verifyStep;
-                return (
-                  <div key={i} className="flex items-center gap-2 text-xs">
-                    {done ? (
-                      <CheckCircle className="w-3.5 h-3.5 text-terminal-green shrink-0" />
-                    ) : running ? (
-                      <div className="w-3.5 h-3.5 rounded-full border-2 border-terminal-amber border-t-transparent animate-spin shrink-0" />
-                    ) : (
-                      <div className="w-3.5 h-3.5 rounded-full border border-border shrink-0" />
-                    )}
-                    <span className={`${done ? "text-terminal-green" : running ? "text-terminal-amber" : "text-muted-foreground"} truncate`}>
-                      [{v.device}] {v.checkLabel}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-            {simState === "complete" && (
-              <div className="mt-3 p-2 bg-terminal-green/10 border border-terminal-green/20 rounded text-xs text-foreground">
-                <span className="text-terminal-green font-bold">Lab Complete:</span> {selectedLab.explanation}
-              </div>
-            )}
           </div>
         </div>
       </div>
