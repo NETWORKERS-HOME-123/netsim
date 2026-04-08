@@ -15,19 +15,30 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
     return n ? { x: n.x, y: n.y } : { x: 0, y: 0 };
   };
 
-  // Compute viewBox dynamically from node positions
-  const maxX = Math.max(...nodes.map((n) => n.x)) + 120;
-  const maxY = Math.max(...nodes.map((n) => n.y)) + 100;
-  const vbWidth = Math.max(520, maxX);
-  const vbHeight = Math.max(420, maxY);
+  // Auto-scale to fit all nodes into a fixed viewBox for consistent text size
+  const xs = nodes.map((n) => n.x);
+  const ys = nodes.map((n) => n.y);
+  const dataW = Math.max(...xs) - Math.min(...xs) + 200;
+  const dataH = Math.max(...ys) - Math.min(...ys) + 140;
+  const minX = Math.min(...xs);
+  const minY = Math.min(...ys);
+  const vbW = 700;
+  const vbH = 560;
+  const scaleX = (vbW - 100) / dataW;
+  const scaleY = (vbH - 100) / dataH;
+  const scale = Math.min(scaleX, scaleY, 1);
 
   const getScaledPos = (id: string) => {
     const n = nodes.find((n) => n.id === id);
-    return n ? { x: n.x + 20, y: n.y + 20 } : { x: 0, y: 0 };
+    if (!n) return { x: 0, y: 0 };
+    return {
+      x: (n.x - minX + 100) * scale + 30,
+      y: (n.y - minY + 70) * scale + 20,
+    };
   };
 
   return (
-    <svg viewBox={`0 0 ${vbWidth} ${vbHeight}`} className="w-full h-full">
+    <svg viewBox={`0 0 ${vbW} ${vbH}`} className="w-full h-full">
       <defs>
         <filter id="glow-active">
           <feGaussianBlur stdDeviation="4" result="blur" />
