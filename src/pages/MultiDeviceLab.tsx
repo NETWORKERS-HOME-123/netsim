@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { multiDeviceLabs } from "@/data/labs-multidevice";
 import type { MultiDeviceLab, MultiDeviceStep } from "@/data/labs-multidevice";
 import { ChevronRight, Play, RotateCcw, CheckCircle, XCircle, ArrowLeft, Monitor, Server } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LabNavToggle } from "@/components/simulator/LabNavToggle";
 
 type SimState = "idle" | "running" | "verifying" | "complete";
 
@@ -329,12 +330,15 @@ export default function MultiDeviceLabPage() {
     <div className="h-screen w-screen flex flex-col overflow-hidden bg-background">
       {/* Top bar */}
       <div className="h-14 border-b border-border bg-card flex items-center px-4 gap-4 shrink-0">
-        <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="w-4 h-4" />
-          <span className="text-xs font-mono-terminal">SIMULATOR</span>
-        </Link>
-        <ChevronRight className="w-3 h-3 text-muted-foreground" />
-        <span className="text-xs font-mono-terminal text-foreground">Multi-Device Labs</span>
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-terminal-green animate-glow-pulse" />
+          <span className="font-mono-terminal text-sm font-bold tracking-widest text-foreground">
+            SIMULATOR
+          </span>
+        </div>
+        <div className="ml-4">
+          <LabNavToggle />
+        </div>
         <ChevronRight className="w-3 h-3 text-muted-foreground" />
         <span className="text-xs font-mono-terminal text-primary">{selectedLab.name}</span>
 
