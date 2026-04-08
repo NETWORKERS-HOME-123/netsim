@@ -166,7 +166,9 @@ function MultiDeviceTerminal({
 }
 
 export default function MultiDeviceLabPage() {
-  const [selectedLab, setSelectedLab] = useState<MultiDeviceLab>(multiDeviceLabs[0]);
+  const [labLevel, setLabLevel] = useState<"CCNA" | "CCNP">("CCNP");
+  const filteredLabs = multiDeviceLabs.filter((l) => l.difficulty === labLevel);
+  const [selectedLab, setSelectedLab] = useState<MultiDeviceLab>(filteredLabs[0] || multiDeviceLabs[0]);
   const [simState, setSimState] = useState<SimState>("idle");
   const [currentStep, setCurrentStep] = useState(0);
   const [verifyStep, setVerifyStep] = useState(0);
@@ -368,10 +370,45 @@ export default function MultiDeviceLabPage() {
       <div className="flex flex-1 min-h-0">
         {/* Lab sidebar */}
         <div className="w-56 border-r border-border bg-[hsl(var(--sidebar-background))] overflow-y-auto shrink-0">
+          {/* Level Toggle */}
           <div className="p-3 border-b border-border">
-            <h3 className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider">Scenarios</h3>
+            <div className="flex rounded-lg overflow-hidden border border-border">
+              <button
+                onClick={() => {
+                  setLabLevel("CCNA");
+                  const ccna = multiDeviceLabs.filter((l) => l.difficulty === "CCNA");
+                  if (ccna.length > 0) setSelectedLab(ccna[0]);
+                }}
+                className={`flex-1 py-2.5 text-sm font-bold font-mono-terminal transition-colors ${
+                  labLevel === "CCNA"
+                    ? "bg-terminal-green text-background"
+                    : "bg-secondary text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                CCNA
+              </button>
+              <button
+                onClick={() => {
+                  setLabLevel("CCNP");
+                  const ccnp = multiDeviceLabs.filter((l) => l.difficulty === "CCNP");
+                  if (ccnp.length > 0) setSelectedLab(ccnp[0]);
+                }}
+                className={`flex-1 py-2.5 text-sm font-bold font-mono-terminal transition-colors ${
+                  labLevel === "CCNP"
+                    ? "bg-terminal-amber text-background"
+                    : "bg-secondary text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                CCNP
+              </button>
+            </div>
           </div>
-          {multiDeviceLabs.map((lab) => (
+          <div className="p-3 border-b border-border">
+            <h3 className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider">
+              {labLevel} Scenarios ({filteredLabs.length})
+            </h3>
+          </div>
+          {filteredLabs.map((lab) => (
             <button
               key={lab.id}
               onClick={() => setSelectedLab(lab)}
@@ -385,6 +422,11 @@ export default function MultiDeviceLabPage() {
               <div className="text-[10px] text-muted-foreground mt-1">{lab.category} • {lab.topology.nodes.length} devices</div>
             </button>
           ))}
+          {filteredLabs.length === 0 && (
+            <div className="p-4 text-xs text-muted-foreground text-center font-mono-terminal">
+              No {labLevel} labs yet.<br />Coming soon!
+            </div>
+          )}
         </div>
 
         {/* Center content */}
