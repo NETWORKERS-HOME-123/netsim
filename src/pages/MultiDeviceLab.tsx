@@ -48,6 +48,7 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
         const midX = (from.x + to.x) / 2;
         const midY = (from.y + to.y) / 2;
         const isActive = activeDevice === link.from || activeDevice === link.to;
+        const showLabel = link.network !== "Trunk";
         return (
           <g key={i}>
             <line
@@ -57,10 +58,14 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
               strokeDasharray={isActive ? "10,5" : "none"}
               opacity={isActive ? 1 : 0.7}
             />
-            <rect x={midX - 55} y={midY - 10} width={110} height={20} rx={3} fill="hsl(220,20%,7%)" fillOpacity={0.95} stroke="hsl(220,14%,22%)" strokeWidth={0.5} />
-            <text x={midX} y={midY + 4} textAnchor="middle" fontSize={12} fill="hsl(215,12%,65%)" fontWeight="500">
-              {link.network.length > 14 ? link.network.slice(0, 13) + "…" : link.network}
-            </text>
+            {showLabel && (
+              <>
+                <rect x={midX - 55} y={midY - 10} width={110} height={20} rx={3} fill="hsl(220,20%,7%)" fillOpacity={0.95} stroke="hsl(220,14%,22%)" strokeWidth={0.5} />
+                <text x={midX} y={midY + 4} textAnchor="middle" fontSize={12} fill="hsl(215,12%,65%)" fontWeight="500">
+                  {link.network.length > 14 ? link.network.slice(0, 13) + "…" : link.network}
+                </text>
+              </>
+            )}
           </g>
         );
       })}
