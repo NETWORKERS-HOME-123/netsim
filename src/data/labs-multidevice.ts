@@ -278,7 +278,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
     topology: {
       nodes: [
         {
-          id: "R1", type: "router", label: "R1 (Core)", x: 350, y: 20,
+          id: "R1", type: "router", label: "R1 (Core)", x: 350, y: 10,
           interfaces: [
             { name: "Gi0/0", ip: "10.0.0.1", mask: "255.255.255.252", connectsTo: "DSW1" },
             { name: "Gi0/1", ip: "10.0.0.5", mask: "255.255.255.252", connectsTo: "DSW2" },
@@ -286,7 +286,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
           ],
         },
         {
-          id: "DSW1", type: "switch", label: "DSW1 (Active)", x: 160, y: 150,
+          id: "DSW1", type: "switch", label: "DSW1 (Active)", x: 120, y: 160,
           interfaces: [
             { name: "Gi0/0", ip: "10.0.0.2", mask: "255.255.255.252", connectsTo: "R1" },
             { name: "Vlan10", ip: "192.168.10.2", mask: "255.255.255.0" },
@@ -296,7 +296,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
           ],
         },
         {
-          id: "DSW2", type: "switch", label: "DSW2 (Standby)", x: 540, y: 150,
+          id: "DSW2", type: "switch", label: "DSW2 (Standby)", x: 580, y: 160,
           interfaces: [
             { name: "Gi0/0", ip: "10.0.0.6", mask: "255.255.255.252", connectsTo: "R1" },
             { name: "Vlan10", ip: "192.168.10.3", mask: "255.255.255.0" },
@@ -306,7 +306,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
           ],
         },
         {
-          id: "ASW1", type: "switch", label: "ASW1", x: 160, y: 320,
+          id: "ASW1", type: "switch", label: "ASW1", x: 120, y: 360,
           interfaces: [
             { name: "Gi0/1", ip: "N/A", mask: "N/A", connectsTo: "DSW1" },
             { name: "Gi0/2", ip: "N/A", mask: "N/A", connectsTo: "DSW2" },
@@ -315,7 +315,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
           ],
         },
         {
-          id: "ASW2", type: "switch", label: "ASW2", x: 540, y: 320,
+          id: "ASW2", type: "switch", label: "ASW2", x: 580, y: 360,
           interfaces: [
             { name: "Gi0/1", ip: "N/A", mask: "N/A", connectsTo: "DSW1" },
             { name: "Gi0/2", ip: "N/A", mask: "N/A", connectsTo: "DSW2" },
@@ -324,15 +324,15 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
           ],
         },
         {
-          id: "PC1", type: "pc", label: "PC1 (VLAN10)", x: 60, y: 470,
+          id: "PC1", type: "pc", label: "PC1 (VLAN10)", x: 30, y: 520,
           interfaces: [{ name: "eth0", ip: "192.168.10.100", mask: "255.255.255.0" }],
         },
         {
-          id: "PC2", type: "pc", label: "PC2 (VLAN20)", x: 260, y: 470,
+          id: "PC2", type: "pc", label: "PC2 (VLAN20)", x: 280, y: 520,
           interfaces: [{ name: "eth0", ip: "192.168.20.100", mask: "255.255.255.0" }],
         },
         {
-          id: "PC3", type: "pc", label: "PC3 (VLAN30)", x: 540, y: 470,
+          id: "PC3", type: "pc", label: "PC3 (VLAN30)", x: 580, y: 520,
           interfaces: [{ name: "eth0", ip: "192.168.30.100", mask: "255.255.255.0" }],
         },
       ],
