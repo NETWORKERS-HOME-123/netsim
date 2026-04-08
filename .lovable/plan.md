@@ -1,75 +1,84 @@
 
-# 10 CCNP-Level Multi-Device Lab Scenarios
 
-Each lab includes 6-10 devices, accurate IOS commands, proper IP addressing, and verification steps.
+# Add 5 New Lab Sections as Routes
 
----
+## Summary
+Add 5 new navigation tabs/routes with ~20 new labs total, each with technically accurate content following existing patterns.
 
-## 1. eBGP Multi-Homed Internet Edge (8 devices)
-- **Topology**: 2 ISP routers, 2 edge routers (eBGP), 1 core router (iBGP), 2 switches, 1 server
-- **Skills**: eBGP peering, AS-path prepending, local-preference, route filtering with prefix-lists, default route origination
-- **Key commands**: `router bgp`, `neighbor remote-as`, `ip prefix-list`, `route-map`, `set local-preference`, `set as-path prepend`
-- **Verification**: `show ip bgp summary`, `show ip bgp`, `show ip route bgp`, verify preferred path selection
+## New Routes
 
-## 2. DMVPN Phase 3 Hub-and-Spoke (8 devices)
-- **Topology**: 1 hub router, 3 spoke routers, 1 NHRP server (hub), 2 LAN switches, 1 PC
-- **Skills**: mGRE tunnel, NHRP, IPsec profile, EIGRP over DMVPN, spoke-to-spoke direct tunnels
-- **Key commands**: `interface Tunnel0`, `tunnel mode gre multipoint`, `ip nhrp map multicast dynamic`, `ip nhrp redirect`, `ip nhrp shortcut`, `crypto ipsec profile`
-- **Verification**: `show dmvpn`, `show ip nhrp`, `show crypto ipsec sa`, verify spoke-to-spoke reachability
+| Tab | Route | Color | Icon | Lab Modes |
+|-----|-------|-------|------|-----------|
+| NetOps | `/netops` | blue | Activity | Network Lab |
+| Security | `/security` | red | Shield | Network Lab |
+| Python SecOps | `/python-secops` | cyan | Lock | Python Lab |
+| Cloud | `/cloud` | indigo | Cloud | Terraform Lab |
+| Forensics | `/forensics` | orange | Search | Network Lab |
 
-## 3. VRF-Lite with Route Leaking (7 devices)
-- **Topology**: 1 core router (VRF-aware), 2 distribution routers, 2 switches, 2 PCs in different VRFs
-- **Skills**: VRF definition, per-VRF routing (OSPF instances), route leaking via static routes, inter-VRF communication
-- **Key commands**: `ip vrf`, `rd`, `interface ... ip vrf forwarding`, `router ospf vrf`, `ip route vrf`
-- **Verification**: `show ip vrf`, `show ip route vrf`, ping between VRFs via leaked routes
+## New Lab Data Files
 
-## 4. Dual-Stack IPv4/IPv6 with OSPFv3 (6 devices)
-- **Topology**: 3 routers (triangle), 2 switches, 1 dual-stack server
-- **Skills**: IPv6 addressing (GUA + link-local), OSPFv3 for IPv6, OSPFv2 for IPv4, dual-stack verification
-- **Key commands**: `ipv6 unicast-routing`, `ipv6 address`, `ipv6 router ospf`, `ipv6 ospf area`, `ospfv3`
-- **Verification**: `show ipv6 ospf neighbor`, `show ipv6 route ospf`, `ping ipv6`, verify dual-stack reachability
+### 1. `src/data/labs-netops.ts` (4 labs, mode: "Network Lab")
+- **snmp-trap-lab** — Configure SNMP trap receiver, `snmp-server host`, community strings, `show snmp`, trap correlation
+- **netflow-analysis** — `ip flow-export`, `ip cef`, NetFlow v9/IPFIX config, `show ip cache flow`, anomaly detection
+- **change-management** — Pre/post config diffs via `show archive config differences`, `configure replace`, rollback
+- **syslog-pipeline** — `logging host`, severity levels, `logging trap`, `show logging`, regex-based alerting
 
-## 5. EIGRP Named Mode with Redistribution (8 devices)
-- **Topology**: 2 EIGRP routers, 2 OSPF routers, 1 redistribution router (ASBR), 2 switches, 1 PC
-- **Skills**: EIGRP named mode config, OSPF config, mutual redistribution, route tagging to prevent loops, distribute-list filtering
-- **Key commands**: `router eigrp NAMED`, `address-family ipv4 unicast autonomous-system`, `redistribute ospf`, `redistribute eigrp`, `route-map`, `set tag`, `match tag`
-- **Verification**: `show ip eigrp topology`, `show ip route`, verify no routing loops, verify external routes (D EX, O E2)
+### 2. `src/data/labs-security.ts` (6 labs, mode: "Network Lab")
+- **zbf-firewall** — Zone pairs, class-maps, policy-maps, `inspect` action, `show zone-pair security`
+- **ids-ips-snort** — Snort rule syntax (`alert tcp`), signature tuning, inline vs passive, `show ip ips signatures`
+- **dot1x-nac** — `dot1x system-auth-control`, RADIUS server config, MAB fallback, dynamic VLAN, `show dot1x`
+- **dmvpn-flexvpn** — DMVPN Phase 3 vs FlexVPN IKEv2, `crypto ikev2`, `show dmvpn`, migration steps
+- **copp-lab** — Control plane policing with MQC, `class-map`/`policy-map` on control-plane, `show policy-map control-plane`
+- **dhcp-snooping-dai** — `ip dhcp snooping`, trusted ports, DAI `ip arp inspection`, IP Source Guard, `show ip dhcp snooping`
 
-## 6. GRE over IPsec Site-to-Site VPN (7 devices)
-- **Topology**: 2 site routers, 1 ISP router (simulated internet), 2 LAN switches, 2 PCs
-- **Skills**: GRE tunnel, IPsec IKEv2 config, crypto keyring, tunnel protection, OSPF over tunnel
-- **Key commands**: `crypto ikev2 proposal`, `crypto ikev2 policy`, `crypto ikev2 profile`, `crypto ipsec transform-set`, `crypto ipsec profile`, `tunnel protection ipsec profile`
-- **Verification**: `show crypto ikev2 sa`, `show crypto ipsec sa`, `show interface tunnel`, ping across sites
+### 3. `src/data/labs-python-secops.ts` (4 labs, mode: "Python Lab")
+- **py-vuln-scanner** — Python script auditing configs against CIS benchmarks, regex parsing, compliance scoring
+- **py-acl-analyzer** — Parse ACLs, detect shadowed/redundant rules, visualization output
+- **py-config-compliance** — Golden template comparison, Jinja2 diff, deviation flagging
+- **py-cert-manager** — PKI cert expiry monitoring with `cryptography` lib, CSR automation
 
-## 7. Spanning Tree Optimization (MST + BPDU Guard) (8 devices)
-- **Topology**: 2 core switches (MST root), 3 distribution switches, 2 access switches, 1 PC
-- **Skills**: MST (802.1s) with multiple instances, root bridge placement, BPDU Guard, Root Guard, PortFast, Loop Guard
-- **Key commands**: `spanning-tree mode mst`, `spanning-tree mst configuration`, `instance vlan`, `spanning-tree mst root primary`, `spanning-tree portfast`, `spanning-tree bpduguard enable`
-- **Verification**: `show spanning-tree mst`, `show spanning-tree summary`, verify root bridge election per instance
+### 4. `src/data/labs-cloud-infra.ts` (4 labs, mode: "Terraform Lab")
+- **tf-firewall-rules** — Security groups + NACLs as code, `aws_security_group`, `aws_network_acl`
+- **tf-sdwan-policy** — SD-WAN application-aware routing model, SLA classes, policy templates
+- **tf-k8s-netpol** — Kubernetes NetworkPolicy resources, ingress/egress rules, Calico selectors
+- **tf-ztna** — Zero Trust micro-segmentation, identity-based access, `aws_vpc_endpoint`
 
-## 8. First Hop Redundancy with VRRP + Policy-Based Routing (7 devices)
-- **Topology**: 2 gateway routers (VRRP), 1 WAN router, 2 switches, 2 PCs in different VLANs
-- **Skills**: VRRPv3, PBR with route-maps, ACL-based traffic steering, tracking objects for failover
-- **Key commands**: `vrrp address-family`, `priority`, `track`, `route-map PBR`, `match ip address`, `set ip next-hop`, `ip policy route-map`
-- **Verification**: `show vrrp brief`, `show route-map`, `show ip policy`, traceroute to verify path
+### 5. `src/data/labs-forensics.ts` (4 labs, mode: "Network Lab")
+- **pcap-analysis** — Guided tcpdump filters, packet decode, TCP handshake analysis, `show ip traffic`
+- **bgp-hijack** — BGP route leak simulation, RPKI ROA validation, prefix filtering with route-maps
+- **stp-forensics** — STP loop diagnosis, `show spanning-tree detail`, topology change counters, root guard
+- **mtu-troubleshoot** — Path MTU discovery, `ping df-bit`, GRE overhead calc, `ip tcp adjust-mss`
 
-## 9. MPLS L3VPN (PE-CE with BGP) (8 devices)
-- **Topology**: 2 PE routers, 1 P router, 2 CE routers, 2 switches, 1 server
-- **Skills**: MPLS LDP, VRF with RD/RT, MP-BGP VPNv4, PE-CE routing (OSPF or static), label switching
-- **Key commands**: `mpls ip`, `mpls ldp router-id`, `ip vrf` with `rd` and `route-target`, `address-family vpnv4`, `neighbor activate`, `redistribute connected`
-- **Verification**: `show mpls ldp neighbor`, `show mpls forwarding-table`, `show ip bgp vpnv4 all`, ping CE-to-CE across MPLS core
+## Updated Files
 
-## 10. QoS - DiffServ with CBWFQ + LLQ (6 devices)
-- **Topology**: 2 routers (WAN edge), 1 WAN link (shaped), 2 switches, 1 IP phone + 1 PC
-- **Skills**: MQC (class-map, policy-map, service-policy), DSCP marking, CBWFQ, LLQ for voice, shaping on WAN interface, NBAR for application classification
-- **Key commands**: `class-map match-any`, `match dscp`, `match protocol`, `policy-map`, `class VOICE priority`, `class DATA bandwidth`, `service-policy output`, `shape average`
-- **Verification**: `show policy-map interface`, `show class-map`, verify DSCP markings, verify queue allocation
+### `src/data/labs.ts`
+- Add new LabMode values: keep existing modes, new labs reuse "Network Lab", "Python Lab", "Terraform Lab"
+- Import all 5 new lab arrays and spread into `labs[]`
+- Add new categories to `categories[]`: "Network Operations", "Security", "Python Security", "Cloud Infrastructure", "Forensics"
 
----
+### `src/components/simulator/LabNavToggle.tsx`
+- Add 5 new nav items with colors: NetOps (blue-600), Security (red-600), Python SecOps (teal-600), Cloud (indigo-600), Forensics (orange-600)
+- Total 9 tabs — use smaller text (`text-[10px]`) and tighter padding to fit
 
-## Implementation Details
-- Each lab: full topology data (nodes + links + interfaces + IPs), 15-30 config steps, 4-6 verification checks
-- All IOS commands verified against Cisco IOS 15.x / IOS-XE syntax
-- Proper subnet masks (no mismatches), correct interface naming (Gi/Fa/Lo/Tunnel/Vlan)
-- Explanations on each critical step for learning context
-- Node positions spread for clear topology rendering (no overlaps)
+### `src/App.tsx`
+- Add 5 new route imports and `<Route>` entries
+
+### New Page Files (5 pages following AutomationLab.tsx pattern)
+- `src/pages/NetOpsLab.tsx` — filters categories ["Network Operations"]
+- `src/pages/SecurityLab.tsx` — filters ["Security"]
+- `src/pages/PythonSecOpsLab.tsx` — filters ["Python Security"]
+- `src/pages/CloudLab.tsx` — filters ["Cloud Infrastructure"]
+- `src/pages/ForensicsLab.tsx` — filters ["Forensics"]
+
+Each page: WorkspaceProvider wrapper, custom sidebar filtering relevant categories, auto-selects first lab on mount.
+
+## Technical Accuracy Notes
+- All IOS commands use correct syntax (global config → sub-mode → verification)
+- SNMP: proper `snmp-server` command hierarchy
+- ZBF: correct zone-pair → class-map → policy-map → inspect chain
+- 802.1X: accurate `aaa`/`radius-server`/`dot1x` command sequence
+- CoPP: proper control-plane service-policy attachment
+- BGP hijack: realistic AS-path prepend leak + RPKI ROV filtering
+- Python labs use real libraries (netmiko, cryptography, jinja2)
+- Terraform labs use valid HCL with correct AWS provider resources
+
