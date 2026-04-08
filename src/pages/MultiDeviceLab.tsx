@@ -15,14 +15,19 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
     return n ? { x: n.x, y: n.y } : { x: 0, y: 0 };
   };
 
-  // Scale positions relative to compact viewBox for larger text rendering
+  // Compute viewBox dynamically from node positions
+  const maxX = Math.max(...nodes.map((n) => n.x)) + 120;
+  const maxY = Math.max(...nodes.map((n) => n.y)) + 100;
+  const vbWidth = Math.max(520, maxX);
+  const vbHeight = Math.max(420, maxY);
+
   const getScaledPos = (id: string) => {
     const n = nodes.find((n) => n.id === id);
     return n ? { x: n.x + 20, y: n.y + 20 } : { x: 0, y: 0 };
   };
 
   return (
-    <svg viewBox="0 0 520 420" className="w-full h-full">
+    <svg viewBox={`0 0 ${vbWidth} ${vbHeight}`} className="w-full h-full">
       <defs>
         <filter id="glow-active">
           <feGaussianBlur stdDeviation="4" result="blur" />
