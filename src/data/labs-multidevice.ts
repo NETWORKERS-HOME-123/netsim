@@ -1,3 +1,5 @@
+import { extraMultiDeviceLabs } from "./labs-multidevice-extra";
+
 export interface MultiDeviceStep {
   device: string;
   command: string;
@@ -596,6 +598,4 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
   },
 ];
 
-// Merge extra labs
-import { extraMultiDeviceLabs } from "./labs-multidevice-extra";
 multiDeviceLabs.push(...extraMultiDeviceLabs);
