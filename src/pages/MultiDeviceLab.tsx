@@ -454,7 +454,7 @@ export default function MultiDeviceLabPage() {
           </div>
 
           {/* Top: Topology (large) + Device Table side by side */}
-          <div className="flex border-b border-border" style={{ height: "45%" }}>
+          <div className="flex border-b border-border" style={{ height: "55%" }}>
             {/* Topology — takes most of the width */}
             <div className="flex-1 p-3 overflow-hidden flex flex-col min-w-0">
               <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-1">
