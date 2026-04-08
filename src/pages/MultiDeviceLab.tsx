@@ -15,20 +15,17 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
     return n ? { x: n.x, y: n.y } : { x: 0, y: 0 };
   };
 
-  // Scale node positions to fill canvas
-  const scale = 1.4;
-  const offsetX = 30;
-  const offsetY = 30;
+  // Scale positions relative to compact viewBox for larger text rendering
   const getScaledPos = (id: string) => {
     const n = nodes.find((n) => n.id === id);
-    return n ? { x: n.x * scale + offsetX, y: n.y * scale + offsetY } : { x: 0, y: 0 };
+    return n ? { x: n.x + 20, y: n.y + 20 } : { x: 0, y: 0 };
   };
 
   return (
-    <svg viewBox="0 0 820 580" className="w-full h-full">
+    <svg viewBox="0 0 520 420" className="w-full h-full">
       <defs>
         <filter id="glow-active">
-          <feGaussianBlur stdDeviation="6" result="blur" />
+          <feGaussianBlur stdDeviation="4" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
