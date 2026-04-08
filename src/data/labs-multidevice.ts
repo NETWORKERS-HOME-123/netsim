@@ -328,7 +328,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
           interfaces: [{ name: "eth0", ip: "192.168.10.100", mask: "255.255.255.0" }],
         },
         {
-          id: "PC2", type: "pc", label: "PC2 (VLAN20)", x: 280, y: 520,
+          id: "PC2", type: "pc", label: "PC2 (VLAN20)", x: 350, y: 520,
           interfaces: [{ name: "eth0", ip: "192.168.20.100", mask: "255.255.255.0" }],
         },
         {
