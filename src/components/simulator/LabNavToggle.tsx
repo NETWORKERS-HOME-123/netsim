@@ -3,10 +3,10 @@ import { cn } from "@/lib/utils";
 import { Server, Terminal, Bot, Wrench } from "lucide-react";
 
 const navItems = [
-  { label: "CCNA", path: "/", icon: Terminal, description: "Network Fundamentals" },
-  { label: "CCNP", path: "/multi-device", icon: Server, description: "Multi-Device Labs" },
-  { label: "Automation", path: "/automation", icon: Wrench, description: "Python & Terraform" },
-  { label: "AI Coding", path: "/ai-coding", icon: Bot, description: "AI-Assisted Labs" },
+  { label: "CCNA", path: "/", icon: Terminal, description: "Network Fundamentals", activeClass: "bg-green-600 text-white" },
+  { label: "CCNP", path: "/multi-device", icon: Server, description: "Multi-Device Labs", activeClass: "bg-amber-600 text-white" },
+  { label: "Automation", path: "/automation", icon: Wrench, description: "Python & Terraform", activeClass: "bg-cyan-600 text-white" },
+  { label: "AI Coding", path: "/ai-coding", icon: Bot, description: "AI-Assisted Labs", activeClass: "bg-purple-600 text-white" },
 ];
 
 export function LabNavToggle() {
@@ -25,7 +25,7 @@ export function LabNavToggle() {
             className={cn(
               "flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold font-mono-terminal transition-colors",
               isActive
-                ? "bg-primary text-primary-foreground"
+                ? item.activeClass
                 : "bg-secondary text-muted-foreground hover:text-foreground"
             )}
           >
