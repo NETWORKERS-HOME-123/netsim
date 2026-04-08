@@ -100,7 +100,7 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
             </text>
 
             {/* IP addresses */}
-            {node.interfaces.filter(i => i.ip !== "N/A").slice(0, 3).map((intf, idx) => (
+            {node.interfaces.filter(i => i.ip !== "N/A").slice(0, 2).map((intf, idx) => (
               <text key={idx} x={pos.x} y={pos.y + (isRouter ? 54 : 40) + idx * 18} textAnchor="middle" fontSize={14} fill="hsl(38,92%,50%)" fontWeight="500">
                 {intf.name}: {intf.ip}
               </text>
