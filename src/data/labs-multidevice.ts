@@ -315,7 +315,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
           ],
         },
         {
-          id: "ASW2", type: "switch", label: "ASW2", x: 580, y: 360,
+          id: "ASW2", type: "switch", label: "ASW2", x: 620, y: 360,
           interfaces: [
             { name: "Gi0/1", ip: "N/A", mask: "N/A", connectsTo: "DSW1" },
             { name: "Gi0/2", ip: "N/A", mask: "N/A", connectsTo: "DSW2" },
@@ -332,7 +332,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
           interfaces: [{ name: "eth0", ip: "192.168.20.100", mask: "255.255.255.0" }],
         },
         {
-          id: "PC3", type: "pc", label: "PC3 (VLAN30)", x: 580, y: 520,
+          id: "PC3", type: "pc", label: "PC3 (VLAN30)", x: 620, y: 520,
           interfaces: [{ name: "eth0", ip: "192.168.30.100", mask: "255.255.255.0" }],
         },
       ],
