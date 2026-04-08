@@ -52,9 +52,9 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
               strokeDasharray={isActive ? "10,5" : "none"}
               opacity={isActive ? 1 : 0.7}
             />
-            <rect x={midX - 60} y={midY - 12} width={120} height={24} rx={4} fill="hsl(220,20%,7%)" fillOpacity={0.95} stroke="hsl(220,14%,22%)" strokeWidth={0.5} />
-            <text x={midX} y={midY + 5} textAnchor="middle" fontSize={13} fill="hsl(215,12%,65%)" fontWeight="500">
-              {link.network.length > 18 ? link.network.slice(0, 17) + "…" : link.network}
+            <rect x={midX - 70} y={midY - 14} width={140} height={28} rx={4} fill="hsl(220,20%,7%)" fillOpacity={0.95} stroke="hsl(220,14%,22%)" strokeWidth={0.5} />
+            <text x={midX} y={midY + 6} textAnchor="middle" fontSize={16} fill="hsl(215,12%,65%)" fontWeight="500">
+              {link.network.length > 16 ? link.network.slice(0, 15) + "…" : link.network}
             </text>
           </g>
         );
@@ -93,13 +93,13 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
             )}
 
             {/* Label */}
-            <text x={pos.x} y={pos.y - (isRouter ? 44 : 32)} textAnchor="middle" fontSize={15} fontWeight="bold" fill={isActive ? "hsl(142,71%,45%)" : "hsl(210,20%,90%)"}>
+            <text x={pos.x} y={pos.y - (isRouter ? 46 : 34)} textAnchor="middle" fontSize={18} fontWeight="bold" fill={isActive ? "hsl(142,71%,45%)" : "hsl(210,20%,90%)"}>
               {node.label}
             </text>
 
             {/* IP addresses */}
             {node.interfaces.filter(i => i.ip !== "N/A").slice(0, 3).map((intf, idx) => (
-              <text key={idx} x={pos.x} y={pos.y + (isRouter ? 52 : 38) + idx * 16} textAnchor="middle" fontSize={12} fill="hsl(38,92%,50%)" fontWeight="500">
+              <text key={idx} x={pos.x} y={pos.y + (isRouter ? 54 : 40) + idx * 18} textAnchor="middle" fontSize={14} fill="hsl(38,92%,50%)" fontWeight="500">
                 {intf.name}: {intf.ip}
               </text>
             ))}
