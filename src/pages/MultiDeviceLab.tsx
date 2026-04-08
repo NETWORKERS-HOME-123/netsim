@@ -48,7 +48,7 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
         const midX = (from.x + to.x) / 2;
         const midY = (from.y + to.y) / 2;
         const isActive = activeDevice === link.from || activeDevice === link.to;
-        const showLabel = link.network !== "Trunk";
+        const showLabel = link.network !== "Trunk" && !link.network.startsWith("VLAN");
         return (
           <g key={i}>
             <line
