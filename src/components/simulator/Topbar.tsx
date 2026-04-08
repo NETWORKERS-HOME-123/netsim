@@ -1,5 +1,6 @@
 import { useWorkspace } from "@/context/WorkspaceContext";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Server } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -59,6 +60,15 @@ export function Topbar() {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {/* Multi-Device Labs link */}
+      <Link
+        to="/multi-device"
+        className="flex items-center gap-1.5 text-xs font-mono-terminal text-muted-foreground hover:text-terminal-cyan transition-colors border-l border-border pl-4"
+      >
+        <Server className="w-3 h-3" />
+        Multi-Device Labs
+      </Link>
 
       {/* Student Session */}
       <div className="flex items-center gap-2 text-xs text-muted-foreground border-l border-border pl-4">
