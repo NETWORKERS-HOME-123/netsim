@@ -34,6 +34,11 @@ import { advancedRoutingLabs, securityLabs, switchingAdvancedLabs, infraServices
 import { terraformLabs } from "./labs-terraform";
 import { aiCodingLabs } from "./labs-ai-coding";
 import { pythonNetworkLabs } from "./labs-python-network";
+import { netopsLabs } from "./labs-netops";
+import { securityOpsLabs } from "./labs-security";
+import { pythonSecopsLabs } from "./labs-python-secops";
+import { cloudInfraLabs } from "./labs-cloud-infra";
+import { forensicsLabs } from "./labs-forensics";
 
 const fundamentalLabs: Lab[] = [
   {
@@ -185,6 +190,11 @@ export const labs: Lab[] = [
   ...ipv6Labs,
   ...terraformLabs,
   ...aiCodingLabs,
+  ...netopsLabs,
+  ...securityOpsLabs,
+  ...pythonSecopsLabs,
+  ...cloudInfraLabs,
+  ...forensicsLabs,
 ];
 
 export const categories = [
@@ -207,6 +217,11 @@ export const categories = [
   { name: "IPv6", labs: ["ipv6-interface", "ipv6-static-routing", "ospfv3-config"] },
   { name: "Terraform", labs: ["tf-vpc-subnets", "tf-ec2-deployment", "tf-s3-policy", "tf-rds-database", "tf-alb"] },
   { name: "AI Coding", labs: ["ai-rest-api-client", "ai-refactor-legacy", "ai-unit-tests", "ai-debug-async"] },
+  { name: "Network Operations", labs: ["snmp-trap-lab", "netflow-analysis", "change-management", "syslog-pipeline"] },
+  { name: "Security", labs: ["zbf-firewall", "ids-ips-snort", "dot1x-nac", "dmvpn-flexvpn", "copp-lab", "dhcp-snooping-dai"] },
+  { name: "Python Security", labs: ["py-vuln-scanner", "py-acl-analyzer", "py-config-compliance", "py-cert-manager"] },
+  { name: "Cloud Infrastructure", labs: ["tf-firewall-rules", "tf-sdwan-policy", "tf-k8s-netpol", "tf-ztna"] },
+  { name: "Forensics", labs: ["pcap-analysis", "bgp-hijack", "stp-forensics", "mtu-troubleshoot"] },
 ];
 
 export function getLabById(id: string): Lab | undefined {
