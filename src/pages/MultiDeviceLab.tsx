@@ -16,10 +16,10 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
   };
 
   return (
-    <svg viewBox="0 0 600 400" className="w-full h-full" style={{ minHeight: 280 }}>
+    <svg viewBox="0 0 620 420" className="w-full h-full">
       <defs>
         <filter id="glow-active">
-          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feGaussianBlur stdDeviation="5" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -38,14 +38,14 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
           <g key={i}>
             <line
               x1={from.x} y1={from.y} x2={to.x} y2={to.y}
-              stroke={isActive ? "hsl(142,71%,45%)" : "hsl(220,14%,25%)"}
-              strokeWidth={isActive ? 2 : 1.5}
-              strokeDasharray={isActive ? "6,3" : "none"}
-              opacity={isActive ? 1 : 0.6}
+              stroke={isActive ? "hsl(142,71%,45%)" : "hsl(220,14%,28%)"}
+              strokeWidth={isActive ? 2.5 : 1.5}
+              strokeDasharray={isActive ? "8,4" : "none"}
+              opacity={isActive ? 1 : 0.7}
             />
-            <rect x={midX - 40} y={midY - 8} width={80} height={16} rx={3} fill="hsl(220,20%,7%)" fillOpacity={0.9} />
-            <text x={midX} y={midY + 3} textAnchor="middle" fontSize={8} fill="hsl(215,12%,55%)" fontFamily="monospace">
-              {link.network.length > 16 ? link.network.slice(0, 15) + "…" : link.network}
+            <rect x={midX - 46} y={midY - 9} width={92} height={18} rx={3} fill="hsl(220,20%,7%)" fillOpacity={0.92} stroke="hsl(220,14%,20%)" strokeWidth={0.5} />
+            <text x={midX} y={midY + 4} textAnchor="middle" fontSize={9} fill="hsl(215,12%,60%)">
+              {link.network.length > 18 ? link.network.slice(0, 17) + "…" : link.network}
             </text>
           </g>
         );
@@ -64,32 +64,32 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
           <g key={node.id} filter={isActive ? "url(#glow-active)" : undefined}>
             {/* Device shape */}
             {isRouter ? (
-              <circle cx={node.x} cy={node.y} r={22} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 2.5 : 1.5} />
+              <circle cx={node.x} cy={node.y} r={28} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 3 : 2} />
             ) : isPC ? (
-              <rect x={node.x - 16} y={node.y - 14} width={32} height={28} rx={4} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 2.5 : 1.5} />
+              <rect x={node.x - 20} y={node.y - 17} width={40} height={34} rx={5} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 3 : 2} />
             ) : (
-              <rect x={node.x - 22} y={node.y - 14} width={44} height={28} rx={4} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 2.5 : 1.5} />
+              <rect x={node.x - 28} y={node.y - 17} width={56} height={34} rx={5} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 3 : 2} />
             )}
 
             {/* Icon */}
             {isRouter && (
-              <text x={node.x} y={node.y + 4} textAnchor="middle" fontSize={14} fill={fillColor}>⬡</text>
+              <text x={node.x} y={node.y + 5} textAnchor="middle" fontSize={18} fill={fillColor}>⬡</text>
             )}
             {node.type === "switch" && (
-              <text x={node.x} y={node.y + 4} textAnchor="middle" fontSize={12} fill={fillColor}>⊞</text>
+              <text x={node.x} y={node.y + 5} textAnchor="middle" fontSize={16} fill={fillColor}>⊞</text>
             )}
             {isPC && (
-              <text x={node.x} y={node.y + 4} textAnchor="middle" fontSize={12} fill={fillColor}>▣</text>
+              <text x={node.x} y={node.y + 5} textAnchor="middle" fontSize={16} fill={fillColor}>▣</text>
             )}
 
             {/* Label */}
-            <text x={node.x} y={node.y - (isRouter ? 28 : 22)} textAnchor="middle" fontSize={9} fontWeight="bold" fill={isActive ? "hsl(142,71%,45%)" : "hsl(210,20%,90%)"} fontFamily="monospace">
+            <text x={node.x} y={node.y - (isRouter ? 34 : 26)} textAnchor="middle" fontSize={11} fontWeight="bold" fill={isActive ? "hsl(142,71%,45%)" : "hsl(210,20%,90%)"}>
               {node.label}
             </text>
 
             {/* IP addresses */}
-            {node.interfaces.filter(i => i.ip !== "N/A").slice(0, 2).map((intf, idx) => (
-              <text key={idx} x={node.x} y={node.y + (isRouter ? 34 : 26) + idx * 11} textAnchor="middle" fontSize={7} fill="hsl(38,92%,50%)" fontFamily="monospace">
+            {node.interfaces.filter(i => i.ip !== "N/A").slice(0, 3).map((intf, idx) => (
+              <text key={idx} x={node.x} y={node.y + (isRouter ? 40 : 30) + idx * 13} textAnchor="middle" fontSize={9} fill="hsl(38,92%,50%)">
                 {intf.name}: {intf.ip}
               </text>
             ))}
