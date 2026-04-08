@@ -16,10 +16,10 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
   };
 
   return (
-    <svg viewBox="0 0 600 400" className="w-full h-full" style={{ minHeight: 280 }}>
+    <svg viewBox="0 0 620 420" className="w-full h-full">
       <defs>
         <filter id="glow-active">
-          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feGaussianBlur stdDeviation="5" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -38,14 +38,14 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
           <g key={i}>
             <line
               x1={from.x} y1={from.y} x2={to.x} y2={to.y}
-              stroke={isActive ? "hsl(142,71%,45%)" : "hsl(220,14%,25%)"}
-              strokeWidth={isActive ? 2 : 1.5}
-              strokeDasharray={isActive ? "6,3" : "none"}
-              opacity={isActive ? 1 : 0.6}
+              stroke={isActive ? "hsl(142,71%,45%)" : "hsl(220,14%,28%)"}
+              strokeWidth={isActive ? 2.5 : 1.5}
+              strokeDasharray={isActive ? "8,4" : "none"}
+              opacity={isActive ? 1 : 0.7}
             />
-            <rect x={midX - 40} y={midY - 8} width={80} height={16} rx={3} fill="hsl(220,20%,7%)" fillOpacity={0.9} />
-            <text x={midX} y={midY + 3} textAnchor="middle" fontSize={8} fill="hsl(215,12%,55%)" fontFamily="monospace">
-              {link.network.length > 16 ? link.network.slice(0, 15) + "…" : link.network}
+            <rect x={midX - 46} y={midY - 9} width={92} height={18} rx={3} fill="hsl(220,20%,7%)" fillOpacity={0.92} stroke="hsl(220,14%,20%)" strokeWidth={0.5} />
+            <text x={midX} y={midY + 4} textAnchor="middle" fontSize={9} fill="hsl(215,12%,60%)">
+              {link.network.length > 18 ? link.network.slice(0, 17) + "…" : link.network}
             </text>
           </g>
         );
@@ -64,32 +64,32 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
           <g key={node.id} filter={isActive ? "url(#glow-active)" : undefined}>
             {/* Device shape */}
             {isRouter ? (
-              <circle cx={node.x} cy={node.y} r={22} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 2.5 : 1.5} />
+              <circle cx={node.x} cy={node.y} r={28} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 3 : 2} />
             ) : isPC ? (
-              <rect x={node.x - 16} y={node.y - 14} width={32} height={28} rx={4} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 2.5 : 1.5} />
+              <rect x={node.x - 20} y={node.y - 17} width={40} height={34} rx={5} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 3 : 2} />
             ) : (
-              <rect x={node.x - 22} y={node.y - 14} width={44} height={28} rx={4} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 2.5 : 1.5} />
+              <rect x={node.x - 28} y={node.y - 17} width={56} height={34} rx={5} fill="hsl(220,18%,10%)" stroke={fillColor} strokeWidth={isActive ? 3 : 2} />
             )}
 
             {/* Icon */}
             {isRouter && (
-              <text x={node.x} y={node.y + 4} textAnchor="middle" fontSize={14} fill={fillColor}>⬡</text>
+              <text x={node.x} y={node.y + 5} textAnchor="middle" fontSize={18} fill={fillColor}>⬡</text>
             )}
             {node.type === "switch" && (
-              <text x={node.x} y={node.y + 4} textAnchor="middle" fontSize={12} fill={fillColor}>⊞</text>
+              <text x={node.x} y={node.y + 5} textAnchor="middle" fontSize={16} fill={fillColor}>⊞</text>
             )}
             {isPC && (
-              <text x={node.x} y={node.y + 4} textAnchor="middle" fontSize={12} fill={fillColor}>▣</text>
+              <text x={node.x} y={node.y + 5} textAnchor="middle" fontSize={16} fill={fillColor}>▣</text>
             )}
 
             {/* Label */}
-            <text x={node.x} y={node.y - (isRouter ? 28 : 22)} textAnchor="middle" fontSize={9} fontWeight="bold" fill={isActive ? "hsl(142,71%,45%)" : "hsl(210,20%,90%)"} fontFamily="monospace">
+            <text x={node.x} y={node.y - (isRouter ? 34 : 26)} textAnchor="middle" fontSize={11} fontWeight="bold" fill={isActive ? "hsl(142,71%,45%)" : "hsl(210,20%,90%)"}>
               {node.label}
             </text>
 
             {/* IP addresses */}
-            {node.interfaces.filter(i => i.ip !== "N/A").slice(0, 2).map((intf, idx) => (
-              <text key={idx} x={node.x} y={node.y + (isRouter ? 34 : 26) + idx * 11} textAnchor="middle" fontSize={7} fill="hsl(38,92%,50%)" fontFamily="monospace">
+            {node.interfaces.filter(i => i.ip !== "N/A").slice(0, 3).map((intf, idx) => (
+              <text key={idx} x={node.x} y={node.y + (isRouter ? 40 : 30) + idx * 13} textAnchor="middle" fontSize={9} fill="hsl(38,92%,50%)">
                 {intf.name}: {intf.ip}
               </text>
             ))}
@@ -380,7 +380,7 @@ export default function MultiDeviceLabPage() {
           ))}
         </div>
 
-        {/* Center: Terminal + Objective */}
+        {/* Center content */}
         <div className="flex flex-col flex-1 min-w-0">
           {/* Objective bar */}
           <div className="p-3 border-b border-border bg-card/50">
@@ -388,6 +388,50 @@ export default function MultiDeviceLabPage() {
             <div className="text-xs text-foreground leading-relaxed">{selectedLab.objective}</div>
           </div>
 
+          {/* Top: Topology (large) + Device Table side by side */}
+          <div className="flex border-b border-border" style={{ height: "45%" }}>
+            {/* Topology — takes most of the width */}
+            <div className="flex-1 p-3 overflow-hidden flex flex-col min-w-0">
+              <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-1">
+                Network Topology
+              </div>
+              <div className="flex-1 min-h-0">
+                <TopologySVG lab={selectedLab} activeDevice={activeDevice} />
+              </div>
+            </div>
+
+            {/* Device table */}
+            <div className="w-64 border-l border-border overflow-y-auto p-2 shrink-0">
+              <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-2 px-1">
+                Device Interfaces
+              </div>
+              <table className="w-full text-[10px] font-mono-terminal">
+                <thead>
+                  <tr className="text-muted-foreground border-b border-border">
+                    <th className="text-left py-1 px-1">Device</th>
+                    <th className="text-left py-1 px-1">Interface</th>
+                    <th className="text-left py-1 px-1">IP Address</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedLab.topology.nodes.flatMap((node) =>
+                    node.interfaces.filter(i => i.ip !== "N/A").map((intf, idx) => (
+                      <tr
+                        key={`${node.id}-${idx}`}
+                        className={`border-b border-border/30 ${activeDevice === node.id ? "text-terminal-green" : "text-foreground"}`}
+                      >
+                        <td className="py-0.5 px-1">{idx === 0 ? node.id : ""}</td>
+                        <td className="py-0.5 px-1 text-terminal-cyan">{intf.name}</td>
+                        <td className="py-0.5 px-1 text-terminal-amber">{intf.ip}/{intf.mask === "255.255.255.255" ? "32" : intf.mask === "255.255.255.252" ? "30" : intf.mask === "255.255.255.0" ? "24" : intf.mask}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Bottom: Terminal + Verifications side by side */}
           <div className="flex flex-1 min-h-0">
             {/* Terminal */}
             <div className="flex-1 min-w-0 p-2">
@@ -400,78 +444,37 @@ export default function MultiDeviceLabPage() {
               />
             </div>
 
-            {/* Right: Topology + Device Table */}
-            <div className="w-[340px] border-l border-border flex flex-col shrink-0">
-              {/* Topology */}
-              <div className="flex-1 p-2 border-b border-border overflow-hidden">
-                <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-1 px-1">
-                  Network Topology
+            {/* Verifications panel */}
+            <div className="w-64 border-l border-border overflow-y-auto p-3 shrink-0">
+              <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-2">
+                Verification ({simState === "complete" ? selectedLab.verifications.length : verifyStep}/{selectedLab.verifications.length})
+              </div>
+              <div className="space-y-1.5">
+                {selectedLab.verifications.map((v, i) => {
+                  const done = simState === "complete" || (simState === "verifying" && i < verifyStep);
+                  const running = simState === "verifying" && i === verifyStep;
+                  return (
+                    <div key={i} className="flex items-start gap-2 text-[11px]">
+                      {done ? (
+                        <CheckCircle className="w-3.5 h-3.5 text-terminal-green shrink-0 mt-0.5" />
+                      ) : running ? (
+                        <div className="w-3.5 h-3.5 rounded-full border-2 border-terminal-amber border-t-transparent animate-spin shrink-0 mt-0.5" />
+                      ) : (
+                        <div className="w-3.5 h-3.5 rounded-full border border-border shrink-0 mt-0.5" />
+                      )}
+                      <span className={`${done ? "text-terminal-green" : running ? "text-terminal-amber" : "text-muted-foreground"} leading-tight`}>
+                        [{v.device}] {v.checkLabel}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+              {simState === "complete" && (
+                <div className="mt-3 p-2 bg-terminal-green/10 border border-terminal-green/20 rounded text-[11px] text-foreground leading-relaxed">
+                  <span className="text-terminal-green font-bold">✓ Complete:</span> {selectedLab.explanation}
                 </div>
-                <TopologySVG lab={selectedLab} activeDevice={activeDevice} />
-              </div>
-
-              {/* Device table */}
-              <div className="h-48 overflow-y-auto p-2">
-                <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-2 px-1">
-                  Device Interfaces
-                </div>
-                <table className="w-full text-[10px] font-mono-terminal">
-                  <thead>
-                    <tr className="text-muted-foreground border-b border-border">
-                      <th className="text-left py-1 px-1">Device</th>
-                      <th className="text-left py-1 px-1">Interface</th>
-                      <th className="text-left py-1 px-1">IP Address</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedLab.topology.nodes.flatMap((node) =>
-                      node.interfaces.filter(i => i.ip !== "N/A").map((intf, idx) => (
-                        <tr
-                          key={`${node.id}-${idx}`}
-                          className={`border-b border-border/30 ${activeDevice === node.id ? "text-terminal-green" : "text-foreground"}`}
-                        >
-                          <td className="py-0.5 px-1">{idx === 0 ? node.id : ""}</td>
-                          <td className="py-0.5 px-1 text-terminal-cyan">{intf.name}</td>
-                          <td className="py-0.5 px-1 text-terminal-amber">{intf.ip}/{intf.mask === "255.255.255.255" ? "32" : intf.mask === "255.255.255.252" ? "30" : intf.mask === "255.255.255.0" ? "24" : intf.mask}</td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
+              )}
             </div>
-          </div>
-
-          {/* Bottom: Verifications */}
-          <div className="h-36 border-t border-border bg-card shrink-0 overflow-y-auto p-3">
-            <div className="text-[10px] font-mono-terminal text-muted-foreground uppercase tracking-wider mb-2">
-              Verification Checks ({simState === "complete" ? selectedLab.verifications.length : verifyStep}/{selectedLab.verifications.length})
-            </div>
-            <div className="grid grid-cols-2 gap-1.5">
-              {selectedLab.verifications.map((v, i) => {
-                const done = simState === "complete" || (simState === "verifying" && i < verifyStep);
-                const running = simState === "verifying" && i === verifyStep;
-                return (
-                  <div key={i} className="flex items-center gap-2 text-xs">
-                    {done ? (
-                      <CheckCircle className="w-3.5 h-3.5 text-terminal-green shrink-0" />
-                    ) : running ? (
-                      <div className="w-3.5 h-3.5 rounded-full border-2 border-terminal-amber border-t-transparent animate-spin shrink-0" />
-                    ) : (
-                      <div className="w-3.5 h-3.5 rounded-full border border-border shrink-0" />
-                    )}
-                    <span className={`${done ? "text-terminal-green" : running ? "text-terminal-amber" : "text-muted-foreground"} truncate`}>
-                      [{v.device}] {v.checkLabel}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-            {simState === "complete" && (
-              <div className="mt-3 p-2 bg-terminal-green/10 border border-terminal-green/20 rounded text-xs text-foreground">
-                <span className="text-terminal-green font-bold">Lab Complete:</span> {selectedLab.explanation}
-              </div>
-            )}
           </div>
         </div>
       </div>
