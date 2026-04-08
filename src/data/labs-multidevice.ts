@@ -595,3 +595,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
     explanation: "This lab builds a production-like campus network. HSRP provides gateway redundancy — if DSW1 fails, DSW2 takes over as Active gateway seamlessly. EtherChannel (LACP) bundles two physical links for redundancy and bandwidth. Inter-VLAN routing on the distribution layer SVIs allows traffic between VLANs without a dedicated router. The core router (R1) uses floating static routes for WAN path redundancy.",
   },
 ];
+
+// Merge extra labs
+import { extraMultiDeviceLabs } from "./labs-multidevice-extra";
+multiDeviceLabs.push(...extraMultiDeviceLabs);
