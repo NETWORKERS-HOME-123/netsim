@@ -286,7 +286,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
           ],
         },
         {
-          id: "DSW1", type: "switch", label: "DSW1 (Active)", x: 120, y: 160,
+          id: "DSW1", type: "switch", label: "DSW1 (Active)", x: 80, y: 160,
           interfaces: [
             { name: "Gi0/0", ip: "10.0.0.2", mask: "255.255.255.252", connectsTo: "R1" },
             { name: "Vlan10", ip: "192.168.10.2", mask: "255.255.255.0" },
@@ -296,7 +296,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
           ],
         },
         {
-          id: "DSW2", type: "switch", label: "DSW2 (Standby)", x: 580, y: 160,
+          id: "DSW2", type: "switch", label: "DSW2 (Standby)", x: 620, y: 160,
           interfaces: [
             { name: "Gi0/0", ip: "10.0.0.6", mask: "255.255.255.252", connectsTo: "R1" },
             { name: "Vlan10", ip: "192.168.10.3", mask: "255.255.255.0" },
@@ -306,7 +306,7 @@ export const multiDeviceLabs: MultiDeviceLab[] = [
           ],
         },
         {
-          id: "ASW1", type: "switch", label: "ASW1", x: 120, y: 360,
+          id: "ASW1", type: "switch", label: "ASW1", x: 80, y: 360,
           interfaces: [
             { name: "Gi0/1", ip: "N/A", mask: "N/A", connectsTo: "DSW1" },
             { name: "Gi0/2", ip: "N/A", mask: "N/A", connectsTo: "DSW2" },
