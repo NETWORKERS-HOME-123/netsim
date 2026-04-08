@@ -57,9 +57,9 @@ function TopologySVG({ lab, activeDevice }: { lab: MultiDeviceLab; activeDevice:
               strokeDasharray={isActive ? "10,5" : "none"}
               opacity={isActive ? 1 : 0.7}
             />
-            <rect x={midX - 70} y={midY - 14} width={140} height={28} rx={4} fill="hsl(220,20%,7%)" fillOpacity={0.95} stroke="hsl(220,14%,22%)" strokeWidth={0.5} />
-            <text x={midX} y={midY + 6} textAnchor="middle" fontSize={16} fill="hsl(215,12%,65%)" fontWeight="500">
-              {link.network.length > 16 ? link.network.slice(0, 15) + "…" : link.network}
+            <rect x={midX - 55} y={midY - 10} width={110} height={20} rx={3} fill="hsl(220,20%,7%)" fillOpacity={0.95} stroke="hsl(220,14%,22%)" strokeWidth={0.5} />
+            <text x={midX} y={midY + 4} textAnchor="middle" fontSize={12} fill="hsl(215,12%,65%)" fontWeight="500">
+              {link.network.length > 14 ? link.network.slice(0, 13) + "…" : link.network}
             </text>
           </g>
         );
